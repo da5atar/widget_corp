@@ -27,7 +27,7 @@
 		$query .= "AND subject_id = {$subject_id} ";
 		$query .= "ORDER BY position ASC";
 		$page_set = mysqli_query($connection, $query);
-		confirm_query($page_set); // $page_set is here a local variable
+		confirm_query($page_set);
 		return $page_set;
 	}
 	
