@@ -30,7 +30,7 @@
 		    &nbsp;
 		    <input type="radio" name="visible" value="1" /> Yes
 		  </p>
-		  <input type="submit" value="Create Subject" />
+		  <input type="submit" name="submit" value="Create Subject" />
 		</form>
 		<br />
 		<a href="manage_content.php">Cancel</a>
