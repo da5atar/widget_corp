@@ -49,7 +49,7 @@
 		return $subject_set;
 	}
 	
-	function find_pages_for_subject($subject_id, $public=true) { 
+	function find_pages_for_subject($subject_id, $public=true) {
 		global $connection;
 		
 		$safe_subject_id = mysqli_real_escape_string($connection, $subject_id);
@@ -59,7 +59,7 @@
 		$query .= "WHERE subject_id = {$safe_subject_id} ";
 		if ($public) {
 			$query .= "AND visible = 1 ";
-		} // $public boolean sets the context idea 
+		}
 		$query .= "ORDER BY position ASC";
 		$page_set = mysqli_query($connection, $query);
 		confirm_query($page_set);
@@ -102,13 +102,26 @@
 		}
 	}
 	
-	function find_selected_page() {
+	function find_default_page_for_subject($subject_id) {
+		$page_set = find_pages_for_subject($subject_id);
+		if($first_page = mysqli_fetch_assoc($page_set)) {
+			return $first_page;
+		} else {
+			return null;
+		}
+	}
+	
+	function find_selected_page($public=false) {
 		global $current_subject;
 		global $current_page;
 		
 		if (isset($_GET["subject"])) {
 			$current_subject = find_subject_by_id($_GET["subject"]);
-			$current_page = null;
+			if ($public) {
+				$current_page = find_default_page_for_subject($current_subject["id"]);
+			} else {
+				$current_page = null;
+			}
 		} elseif (isset($_GET["page"])) {
 			$current_subject = null;
 			$current_page = find_page_by_id($_GET["page"]);

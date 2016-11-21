@@ -1,4 +1,3 @@
-<!-- $layout_context needs to be set. Generally use the more restrictive context if not set --> 
 <?php 
 	if (!isset($layout_context)) {
 		$layout_context = "public";
@@ -14,5 +13,5 @@
 	</head>
 	<body>
     <div id="header">
-      <h1>Widget Corp <?php if ($layout_context == "admin") { echo "Admin"; } ?></h1> <!-- Using context here to determine if we are in the admin section --> 
+      <h1>Widget Corp <?php if ($layout_context == "admin") { echo "Admin"; } ?></h1>
     </div>
