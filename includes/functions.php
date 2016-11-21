@@ -66,7 +66,7 @@
 		return $page_set;
 	}
 	
-	function find_subject_by_id($subject_id) {
+	function find_subject_by_id($subject_id, $public=true) {
 		global $connection;
 		
 		$safe_subject_id = mysqli_real_escape_string($connection, $subject_id);
@@ -74,6 +74,9 @@
 		$query  = "SELECT * ";
 		$query .= "FROM subjects ";
 		$query .= "WHERE id = {$safe_subject_id} ";
+		if ($public) {
+			$query .= "AND visible = 1 ";
+		}
 		$query .= "LIMIT 1";
 		$subject_set = mysqli_query($connection, $query);
 		confirm_query($subject_set);
@@ -84,7 +87,7 @@
 		}
 	}
 
-	function find_page_by_id($page_id) {
+	function find_page_by_id($page_id, $public=true) {
 		global $connection;
 		
 		$safe_page_id = mysqli_real_escape_string($connection, $page_id);
@@ -92,6 +95,9 @@
 		$query  = "SELECT * ";
 		$query .= "FROM pages ";
 		$query .= "WHERE id = {$safe_page_id} ";
+		if ($public) {
+			$query .= "AND visible = 1 ";
+		}
 		$query .= "LIMIT 1";
 		$page_set = mysqli_query($connection, $query);
 		confirm_query($page_set);
@@ -116,15 +122,15 @@
 		global $current_page;
 		
 		if (isset($_GET["subject"])) {
-			$current_subject = find_subject_by_id($_GET["subject"]);
-			if ($public) {
+			$current_subject = find_subject_by_id($_GET["subject"], $public);
+			if ($current_subject && $public) {
 				$current_page = find_default_page_for_subject($current_subject["id"]);
 			} else {
 				$current_page = null;
 			}
 		} elseif (isset($_GET["page"])) {
 			$current_subject = null;
-			$current_page = find_page_by_id($_GET["page"]);
+			$current_page = find_page_by_id($_GET["page"], $public);
 		} else {
 			$current_subject = null;
 			$current_page = null;
