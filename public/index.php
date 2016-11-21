@@ -8,19 +8,19 @@
 
 <div id="main">
   <div id="navigation">
-		<?php echo public_navigation($current_subject, $current_page); ?>
+    <?php echo public_navigation($current_subject, $current_page); ?>
   </div>
   <div id="page">
-		<?php if ($current_page) { ?>
-			
-			<h2><?php echo htmlentities($current_page["menu_name"]); ?></h2>
-			<?php echo nl2br(htmlentities($current_page["content"])); ?>
-			
-		<?php } else { ?>
-			
-			<p>Welcome!</p>
-			
-		<?php }?>
+    <?php if ($current_page) { ?>
+      
+      <h2><?php echo htmlentities($current_page["menu_name"]); ?></h2>
+      <?php echo nl2br(htmlentities($current_page["content"])); ?>
+      
+    <?php } else { ?>
+      
+      <p>Welcome!</p>
+      
+    <?php }?>
   </div>
 </div>
 
