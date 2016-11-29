@@ -32,5 +32,4 @@
     <a href="new_admin.php">Add new admin</a>
   </div>
 </div>
-
 <?php include("../includes/layouts/footer.php"); ?>
