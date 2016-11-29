@@ -137,6 +137,24 @@
 		}
 	}
 
+	function find_admin_by_username($username) {
+		global $connection;
+		
+		$safe_username = mysqli_real_escape_string($connection, $username);
+		
+		$query  = "SELECT * ";
+		$query .= "FROM admins ";
+		$query .= "WHERE username = '{$safe_username}' ";
+		$query .= "LIMIT 1";
+		$admin_set = mysqli_query($connection, $query);
+		confirm_query($admin_set);
+		if($admin = mysqli_fetch_assoc($admin_set)) {
+			return $admin;
+		} else {
+			return null;
+		}
+	}
+
 	function find_default_page_for_subject($subject_id) {
 		$page_set = find_pages_for_subject($subject_id);
 		if($first_page = mysqli_fetch_assoc($page_set)) {
@@ -282,6 +300,23 @@
 	  } else {
 	    return false;
 	  }
+	}
+
+	function attempt_login($username, $password) {
+		$admin = find_admin_by_username($username);
+		if ($admin) {
+			// found admin, now check password
+			if (password_check($password, $admin["hashed_password"])) {
+				// password matches
+				return $admin;
+			} else {
+				// password does not match
+				return false;
+			}
+		} else {
+			// admin not found
+			return false;
+		}
 	}
 ?>
 
